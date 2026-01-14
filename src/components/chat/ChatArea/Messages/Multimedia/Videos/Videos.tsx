@@ -44,7 +44,6 @@ const VideoItem = memo(({ video }: { video: VideoData }) => {
   return (
     <div>
       <div className="group relative w-full max-w-xl">
-        {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
         <video
           src={videoUrl}
           autoPlay
@@ -57,7 +56,7 @@ const VideoItem = memo(({ video }: { video: VideoData }) => {
         <button
           type="button"
           onClick={handleDownload}
-          className="bg-secondary/80 hover:bg-secondary absolute right-2 top-2 flex items-center justify-center rounded-sm p-1.5 opacity-0 transition-opacity duration-200 group-hover:opacity-100"
+          className="absolute right-2 top-2 flex items-center justify-center rounded-sm bg-secondary/80 p-1.5 opacity-0 transition-opacity duration-200 hover:bg-secondary group-hover:opacity-100"
           aria-label={t('downloadVideo')}
         >
           <Icon type="download" size="xs" />

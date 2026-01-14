@@ -7,7 +7,6 @@ import Images from './Multimedia/Images'
 import Audios from './Multimedia/Audios'
 import { memo } from 'react'
 import AgentThinkingLoader from './AgentThinkingLoader'
-import { useTranslations } from 'next-intl'
 
 interface MessageProps {
   message: ChatMessage
@@ -70,7 +69,7 @@ const AgentMessage = ({ message }: MessageProps) => {
   }
 
   return (
-    <div className="font-geist flex flex-row items-start gap-4">
+    <div className="flex flex-row items-start gap-4 font-geist">
       <div className="flex-shrink-0">
         <Icon type="agent" size="sm" />
       </div>
@@ -85,7 +84,7 @@ const UserMessage = memo(({ message }: MessageProps) => {
       <div className="flex-shrink-0">
         <Icon type="user" size="sm" />
       </div>
-      <div className="text-md font-geist text-secondary rounded-lg">
+      <div className="text-md rounded-lg font-geist text-secondary">
         {message.content}
       </div>
     </div>

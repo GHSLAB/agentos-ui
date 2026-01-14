@@ -14,7 +14,7 @@ const ChatArea = () => {
   const t = useTranslations('Chat')
 
   return (
-    <main className="bg-background relative m-1.5 flex flex-grow flex-col overflow-hidden rounded-xl">
+    <main className="relative m-1.5 flex flex-grow flex-col overflow-hidden rounded-xl bg-background">
       <div className="absolute right-3 top-3 z-20 flex gap-2">
         <LanguageToggle />
         <ThemeToggle />

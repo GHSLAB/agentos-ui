@@ -77,9 +77,7 @@ export function EntitySelector() {
       <Select disabled>
         <SelectTrigger className="h-9 w-full rounded-xl border border-primary/15 bg-primaryAccent text-xs font-medium uppercase opacity-50">
           <SelectValue
-            placeholder={
-              mode === 'team' ? t('noTeams') : t('noAgents')
-            }
+            placeholder={mode === 'team' ? t('noTeams') : t('noAgents')}
           />
         </SelectTrigger>
       </Select>

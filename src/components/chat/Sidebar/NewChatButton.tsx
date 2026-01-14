@@ -12,7 +12,7 @@ function NewChatButton() {
   const t = useTranslations('Common')
   return (
     <Button
-      className="bg-brand text-primary hover:bg-brand/80 z-10 cursor-pointer rounded px-4 py-2 font-bold disabled:cursor-not-allowed disabled:opacity-50"
+      className="z-10 cursor-pointer rounded bg-brand px-4 py-2 font-bold text-primary hover:bg-brand/80 disabled:cursor-not-allowed disabled:opacity-50"
       onClick={clearChat}
       disabled={messages.length === 0}
     >

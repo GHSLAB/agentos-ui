@@ -33,6 +33,7 @@ const SkeletonList: FC<SkeletonListProps> = ({ skeletonCount }) => {
 }
 
 const Sessions = () => {
+  const t = useTranslations('Sidebar')
   const [agentId] = useQueryState('agent', {
     parse: (v: string | null) => v || undefined,
     history: 'push'
@@ -125,7 +126,9 @@ const Sessions = () => {
   if (isSessionsLoading || isEndpointLoading) {
     return (
       <div className="w-full">
-        <div className="mb-2 text-xs font-medium uppercase">Sessions</div>
+        <div className="mb-2 text-xs font-medium uppercase">
+          {t('sessions')}
+        </div>
         <div className="mt-4 h-[calc(100vh-325px)] w-full overflow-y-auto">
           <SkeletonList skeletonCount={5} />
         </div>
@@ -139,9 +142,9 @@ const Sessions = () => {
         {t('sessions')}
       </div>
       <div
-        className={`font-geist h-[calc(100vh-345px)] overflow-y-auto transition-all duration-300 [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar]:transition-opacity [&::-webkit-scrollbar]:duration-300 ${
+        className={`h-[calc(100vh-345px)] overflow-y-auto font-geist transition-all duration-300 [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar]:transition-opacity [&::-webkit-scrollbar]:duration-300 ${
           isScrolling
-            ? '[&::-webkit-scrollbar-thumb]:bg-background [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar]:opacity-0'
+            ? '[&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-background [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar]:opacity-0'
             : '[&::-webkit-scrollbar]:opacity-100'
         }`}
         onScroll={handleScroll}
