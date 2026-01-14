@@ -1,4 +1,9 @@
 {
+  "title": "Welcome to the Banking Financial Multi-Agent System",
+  "customerService": "Customer Service",
+  "accountManager": "Account Manager",
+  "admin": "Admin Management",
+  "agentNotFound": "Agent containing '{name}' not found",
   "intro1": "This is an open-source",
   "builtWith": "Agent UI, built with",
   "fullExperience": "For the full experience, visit the AgentOS",

@@ -1,191 +1,83 @@
 'use client'
 
-import Link from 'next/link'
-import { motion, Variants } from 'framer-motion'
-import Icon from '@/components/ui/icon'
-import { IconType } from '@/components/ui/icon/types'
-import React, { useState } from 'react'
+import { motion } from 'framer-motion'
+import React from 'react'
 import { useTranslations } from 'next-intl'
-
-const EXTERNAL_LINKS = {
-  documentation: 'https://agno.link/agent-ui',
-  agenOS: 'https://os.agno.com',
-  agno: 'https://agno.com'
-}
-
-const TECH_ICONS = [
-  {
-    type: 'nextjs' as IconType,
-    position: 'left-0',
-    link: 'https://nextjs.org',
-    name: 'Next.js',
-    zIndex: 10
-  },
-  {
-    type: 'shadcn' as IconType,
-    position: 'left-[15px]',
-    link: 'https://ui.shadcn.com',
-    name: 'shadcn/ui',
-    zIndex: 20
-  },
-  {
-    type: 'tailwind' as IconType,
-    position: 'left-[30px]',
-    link: 'https://tailwindcss.com',
-    name: 'Tailwind CSS',
-    zIndex: 30
-  }
-]
-
-interface ActionButtonProps {
-  href: string
-  variant?: 'primary'
-  text: string
-}
-
-const ActionButton = ({ href, variant, text }: ActionButtonProps) => {
-  const baseStyles =
-    'px-4 py-2 text-sm transition-colors font-dmmono tracking-tight'
-  const variantStyles = {
-    primary: 'border border-border hover:bg-neutral-800 rounded-xl'
-  }
-
-  return (
-    <Link
-      href={href}
-      target="_blank"
-      className={`${baseStyles} ${variant ? variantStyles[variant] : ''}`}
-    >
-      {text}
-    </Link>
-  )
-}
+import { useStore } from '@/store'
+import { useQueryState } from 'nuqs'
+import { toast } from 'sonner'
+import { Headset, Briefcase, LayoutDashboard } from 'lucide-react'
 
 const ChatBlankState = () => {
-  const [hoveredIcon, setHoveredIcon] = useState<string | null>(null)
   const t = useTranslations('welcome-message')
+  const agents = useStore((state) => state.agents)
+  const [, setAgentId] = useQueryState('agent')
 
-  // Animation variants for the icon
-  const iconVariants: Variants = {
-    initial: { y: 0 },
-    hover: {
-      y: -8,
-      transition: {
-        type: 'spring',
-        stiffness: 150,
-        damping: 10,
-        mass: 0.5
-      }
+  const AGENT_OPTIONS = [
+    {
+      key: 'customerService',
+      searchName: '客户服务',
+      icon: Headset
     },
-    exit: {
-      y: 0,
-      transition: {
-        type: 'spring',
-        stiffness: 200,
-        damping: 15,
-        mass: 0.6
-      }
+    {
+      key: 'accountManager',
+      searchName: '客户经理',
+      icon: Briefcase
+    },
+    {
+      key: 'admin',
+      searchName: '后台管理',
+      icon: LayoutDashboard
     }
-  }
+  ]
 
-  // Animation variants for the tooltip
-  const tooltipVariants: Variants = {
-    hidden: {
-      opacity: 0,
-      transition: {
-        duration: 0.15,
-        ease: 'easeInOut'
-      }
-    },
-    visible: {
-      opacity: 1,
-      transition: {
-        duration: 0.15,
-        ease: 'easeInOut'
-      }
+  const handleAgentSelect = (searchName: string) => {
+    // 尝试根据名字匹配智能体
+    const agent = agents.find((a) => a.name?.includes(searchName))
+
+    if (agent) {
+      setAgentId(agent.id)
+    } else {
+      toast.error(
+        t('agentNotFound', { name: searchName }) ||
+          `未找到包含 "${searchName}" 的智能体`
+      )
     }
   }
 
   return (
     <section
-      className="font-geist flex flex-col items-center text-center"
+      className="font-geist flex h-full w-full flex-col items-center justify-center text-center"
       aria-label="Welcome message"
     >
-      <div className="flex max-w-3xl flex-col gap-y-8">
+      <div className="flex w-full max-w-4xl flex-col gap-y-12 px-4">
         <motion.h1
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.3 }}
-          className="text-xl font-[600] tracking-tight md:text-3xl"
+          className="text-2xl font-bold tracking-tight md:text-4xl"
         >
-          <div className="flex flex-wrap items-center justify-center gap-x-2 font-medium">
-            <span className="flex items-center font-[600]">{t('intro1')}</span>
-            <span className="inline-flex translate-y-[10px] scale-125 items-center transition-transform duration-200 hover:rotate-6">
-              <Link
-                href={EXTERNAL_LINKS.agno}
-                target="_blank"
-                rel="noopener"
-                className="cursor-pointer"
-              >
-                <Icon type="agno-tag" size="default" />
-              </Link>
-            </span>
-            <span className="flex items-center font-[600]">
-              {t('builtWith')}
-            </span>
-            <span className="inline-flex translate-y-[5px] scale-125 items-center">
-              <div className="relative ml-2 h-[40px] w-[90px]">
-                {TECH_ICONS.map((icon) => (
-                  <motion.div
-                    key={icon.type}
-                    className={`absolute ${icon.position} top-0`}
-                    style={{ zIndex: icon.zIndex }}
-                    variants={iconVariants}
-                    initial="initial"
-                    whileHover="hover"
-                    animate={hoveredIcon === icon.type ? 'hover' : 'exit'}
-                    onHoverStart={() => setHoveredIcon(icon.type)}
-                    onHoverEnd={() => setHoveredIcon(null)}
-                  >
-                    <Link
-                      href={icon.link}
-                      target="_blank"
-                      rel="noopener"
-                      className="relative block cursor-pointer"
-                    >
-                      <div>
-                        <Icon type={icon.type} size="default" />
-                      </div>
-                      <motion.div
-                        className="text-primary pointer-events-none absolute bottom-full left-1/2 mb-1 -translate-x-1/2 transform whitespace-nowrap rounded bg-neutral-800 px-2 py-1 text-xs"
-                        variants={tooltipVariants}
-                        initial="hidden"
-                        animate={
-                          hoveredIcon === icon.type ? 'visible' : 'hidden'
-                        }
-                      >
-                        {icon.name}
-                      </motion.div>
-                    </Link>
-                  </motion.div>
-                ))}
-              </div>
-            </span>
-          </div>
-          <p>{t('fullExperience')}</p>
+          {t('title')}
         </motion.h1>
+
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.5 }}
-          className="flex justify-center gap-4"
+          className="grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-6"
         >
-          <ActionButton
-            href={EXTERNAL_LINKS.documentation}
-            variant="primary"
-            text={t('viewDocs')}
-          />
-          <ActionButton href={EXTERNAL_LINKS.agenOS} text={t('visitAgentos')} />
+          {AGENT_OPTIONS.map((option) => (
+            <button
+              key={option.key}
+              onClick={() => handleAgentSelect(option.searchName)}
+              className="border-border bg-card/50 hover:bg-accent group flex flex-col items-center justify-center gap-2 rounded-xl border p-4 transition-all hover:scale-105 hover:shadow-lg md:gap-4 md:rounded-2xl md:p-8"
+            >
+              <option.icon className="text-muted-foreground group-hover:text-primary h-8 w-8 md:h-12 md:w-12" />
+              <div className="text-foreground group-hover:text-primary text-sm font-semibold md:text-lg">
+                {t(option.key)}
+              </div>
+            </button>
+          ))}
         </motion.div>
       </div>
     </section>

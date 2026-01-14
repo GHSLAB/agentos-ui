@@ -10,7 +10,7 @@
     "selectTeam": "选择团队"
   },
   "Sidebar": {
-    "title": "Agent UI",
+    "title": "Bank Agent UI",
     "expand": "展开侧边栏",
     "collapse": "收起侧边栏",
     "mode": "模式",
@@ -52,7 +52,7 @@
     "references": "参考资料",
     "toolCalls": "工具调用",
     "step": "步骤",
-    "agentUI": "Agent UI"
+    "agentUI": "银行多智能体"
   },
   "Multimedia": {
     "imageUnavailable": "图片不可用",
