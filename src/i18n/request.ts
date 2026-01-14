@@ -10,8 +10,15 @@ export default getRequestConfig(async ({ requestLocale }) => {
     locale = routing.defaultLocale
   }
 
+  const mainMessages = (await import(`./main/${locale}.json`)).default
+  const welcomeMessages = (await import(`./welcome-message/${locale}.json`))
+    .default
+
   return {
     locale,
-    messages: (await import(`../../messages/${locale}.json`)).default
+    messages: {
+      ...mainMessages,
+      'welcome-message': welcomeMessages
+    }
   }
 })

@@ -9,13 +9,6 @@
     "selectAgent": "选择智能体",
     "selectTeam": "选择团队"
   },
-  "ChatBlankState": {
-    "intro1": "这是一个开源的",
-    "builtWith": "Agent UI，构建于",
-    "fullExperience": "如需完整体验，请访问 AgentOS",
-    "viewDocs": "查看文档",
-    "visitAgentos": "访问 AGENTOS"
-  },
   "Sidebar": {
     "title": "Agent UI",
     "expand": "展开侧边栏",
