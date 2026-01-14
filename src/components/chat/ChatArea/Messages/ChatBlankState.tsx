@@ -5,6 +5,7 @@ import { motion, Variants } from 'framer-motion'
 import Icon from '@/components/ui/icon'
 import { IconType } from '@/components/ui/icon/types'
 import React, { useState } from 'react'
+import { useTranslations } from 'next-intl'
 
 const EXTERNAL_LINKS = {
   documentation: 'https://agno.link/agent-ui',
@@ -62,6 +63,7 @@ const ActionButton = ({ href, variant, text }: ActionButtonProps) => {
 
 const ChatBlankState = () => {
   const [hoveredIcon, setHoveredIcon] = useState<string | null>(null)
+  const t = useTranslations('ChatBlankState')
 
   // Animation variants for the icon
   const iconVariants: Variants = {
@@ -106,7 +108,7 @@ const ChatBlankState = () => {
 
   return (
     <section
-      className="flex flex-col items-center text-center font-geist"
+      className="font-geist flex flex-col items-center text-center"
       aria-label="Welcome message"
     >
       <div className="flex max-w-3xl flex-col gap-y-8">
@@ -114,12 +116,10 @@ const ChatBlankState = () => {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.3 }}
-          className="text-3xl font-[600] tracking-tight"
+          className="text-xl font-[600] tracking-tight md:text-3xl"
         >
-          <div className="flex items-center justify-center gap-x-2 whitespace-nowrap font-medium">
-            <span className="flex items-center font-[600]">
-              This is an open-source
-            </span>
+          <div className="flex flex-wrap items-center justify-center gap-x-2 font-medium">
+            <span className="flex items-center font-[600]">{t('intro1')}</span>
             <span className="inline-flex translate-y-[10px] scale-125 items-center transition-transform duration-200 hover:rotate-6">
               <Link
                 href={EXTERNAL_LINKS.agno}
@@ -131,7 +131,7 @@ const ChatBlankState = () => {
               </Link>
             </span>
             <span className="flex items-center font-[600]">
-              Agent UI, built with
+              {t('builtWith')}
             </span>
             <span className="inline-flex translate-y-[5px] scale-125 items-center">
               <div className="relative ml-2 h-[40px] w-[90px]">
@@ -157,7 +157,7 @@ const ChatBlankState = () => {
                         <Icon type={icon.type} size="default" />
                       </div>
                       <motion.div
-                        className="pointer-events-none absolute bottom-full left-1/2 mb-1 -translate-x-1/2 transform whitespace-nowrap rounded bg-neutral-800 px-2 py-1 text-xs text-primary"
+                        className="text-primary pointer-events-none absolute bottom-full left-1/2 mb-1 -translate-x-1/2 transform whitespace-nowrap rounded bg-neutral-800 px-2 py-1 text-xs"
                         variants={tooltipVariants}
                         initial="hidden"
                         animate={
@@ -172,7 +172,7 @@ const ChatBlankState = () => {
               </div>
             </span>
           </div>
-          <p>For the full experience, visit the AgentOS</p>
+          <p>{t('fullExperience')}</p>
         </motion.h1>
         <motion.div
           initial={{ opacity: 0, y: 10 }}
@@ -183,9 +183,9 @@ const ChatBlankState = () => {
           <ActionButton
             href={EXTERNAL_LINKS.documentation}
             variant="primary"
-            text="GO TO DOCS"
+            text={t('viewDocs')}
           />
-          <ActionButton href={EXTERNAL_LINKS.agenOS} text="VISIT AGENTOS" />
+          <ActionButton href={EXTERNAL_LINKS.agenOS} text={t('visitAgentos')} />
         </motion.div>
       </div>
     </section>

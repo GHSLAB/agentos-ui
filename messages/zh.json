@@ -1,0 +1,72 @@
+{
+  "LanguageToggle": {
+    "switch": "切换到英文"
+  },
+  "Common": {
+    "newChat": "新对话",
+    "agent": "智能体",
+    "team": "团队",
+    "selectAgent": "选择智能体",
+    "selectTeam": "选择团队"
+  },
+  "ChatBlankState": {
+    "intro1": "这是一个开源的",
+    "builtWith": "Agent UI，构建于",
+    "fullExperience": "如需完整体验，请访问 AgentOS",
+    "viewDocs": "查看文档",
+    "visitAgentos": "访问 AGENTOS"
+  },
+  "Sidebar": {
+    "title": "Agent UI",
+    "expand": "展开侧边栏",
+    "collapse": "收起侧边栏",
+    "mode": "模式",
+    "authToken": "认证令牌",
+    "noTokenSet": "未设置令牌",
+    "enterToken": "输入认证令牌...",
+    "noAgents": "暂无智能体",
+    "noTeams": "暂无团队",
+    "enterValidUrl": "请输入有效的 URL",
+    "agentOS": "AgentOS",
+    "editAgentOS": "编辑 AgentOS",
+    "noEndpointAdded": "未添加端点",
+    "editToken": "编辑令牌",
+    "clearToken": "清除令牌",
+    "sessions": "会话"
+  },
+  "Session": {
+    "deleted": "会话已删除",
+    "deleteFailed": "删除会话失败",
+    "confirmDelete": "确认删除",
+    "deleteWarning": "这将永久删除该会话。此操作无法撤销。",
+    "cancel": "取消",
+    "delete": "删除",
+    "endpointNotConnected": "端点未连接。请连接端点以查看历史记录。",
+    "selectEndpoint": "选择一个端点以查看历史记录。",
+    "selectAgent": "选择一个智能体以查看历史记录。",
+    "noSessions": "未找到会话",
+    "noSessionFound": "未找到会话",
+    "unknownError": "未知错误"
+  },
+  "ChatInput": {
+    "placeholder": "随便问问",
+    "error": "提交出错"
+  },
+  "Chat": {
+    "streamingError": "糟糕！流式传输时出错了。",
+    "refreshPage": "请尝试刷新页面或稍后再试。",
+    "reasoning": "推理过程",
+    "references": "参考资料",
+    "toolCalls": "工具调用",
+    "step": "步骤",
+    "agentUI": "Agent UI"
+  },
+  "Multimedia": {
+    "imageUnavailable": "图片不可用",
+    "aiGeneratedImage": "AI 生成的图片",
+    "downloadingVideo": "正在下载视频...",
+    "videoDownloaded": "视频下载成功",
+    "videoDownloadFailed": "视频下载失败",
+    "downloadVideo": "下载视频"
+  }
+}

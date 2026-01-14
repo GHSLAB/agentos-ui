@@ -14,7 +14,6 @@ import {
   AgnoIcon,
   UserIcon,
   AgentIcon,
-  SheetIcon,
   NextjsTag,
   ShadcnTag,
   TailwindTag,
@@ -35,7 +34,9 @@ import {
   Check,
   ChevronDown,
   ChevronUp,
-  Trash
+  Trash,
+  Menu,
+  PanelLeft
 } from 'lucide-react'
 
 import { PlusIcon } from '@radix-ui/react-icons'
@@ -56,7 +57,7 @@ export const ICONS: IconTypeMap = {
   agno: AgnoIcon,
   user: UserIcon,
   agent: AgentIcon,
-  sheet: SheetIcon,
+  sheet: PanelLeft,
   nextjs: NextjsTag,
   shadcn: ShadcnTag,
   tailwind: TailwindTag,
@@ -75,5 +76,6 @@ export const ICONS: IconTypeMap = {
   'chevron-up': ChevronUp,
   'plus-icon': PlusIcon,
   references: ReferencesIcon,
-  trash: Trash
+  trash: Trash,
+  menu: Menu
 }

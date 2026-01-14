@@ -10,6 +10,7 @@ import { useState } from 'react'
 import DeleteSessionModal from './DeleteSessionModal'
 import useChatActions from '@/hooks/useChatActions'
 import { truncateText, cn } from '@/lib/utils'
+import { useTranslations } from 'next-intl'
 
 type SessionItemProps = SessionEntry & {
   isSelected: boolean
@@ -33,6 +34,7 @@ const SessionItem = ({
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
   const [isDeleting, setIsDeleting] = useState(false)
   const { clearChat } = useChatActions()
+  const t = useTranslations('Session')
 
   const handleGetSession = async () => {
     if (!(agentId || teamId || dbId)) return
@@ -68,16 +70,16 @@ const SessionItem = ({
           setSessionId(null)
           clearChat()
         }
-        toast.success('Session deleted')
+        toast.success(t('deleted'))
       } else {
         const errorMsg = await response?.text()
         toast.error(
-          `Failed to delete session: ${response?.statusText || 'Unknown error'} ${errorMsg || ''}`
+          `${t('deleteFailed')}: ${response?.statusText || t('unknownError')} ${errorMsg || ''}`
         )
       }
     } catch (error) {
       toast.error(
-        `Failed to delete session: ${error instanceof Error ? error.message : String(error)}`
+        `${t('deleteFailed')}: ${error instanceof Error ? error.message : String(error)}`
       )
     } finally {
       setIsDeleteModalOpen(false)
@@ -90,8 +92,8 @@ const SessionItem = ({
         className={cn(
           'group flex h-11 w-full items-center justify-between rounded-lg px-3 py-2 transition-colors duration-200',
           isSelected
-            ? 'cursor-default bg-primary/10'
-            : 'cursor-pointer bg-background-secondary hover:bg-background-secondary/80'
+            ? 'bg-primary/10 cursor-default'
+            : 'bg-background-secondary hover:bg-background-secondary/80 cursor-pointer'
         )}
         onClick={handleGetSession}
       >

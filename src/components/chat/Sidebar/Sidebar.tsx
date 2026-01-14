@@ -8,21 +8,26 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { useState, useEffect } from 'react'
 import Icon from '@/components/ui/icon'
 import { getProviderIcon } from '@/lib/modelProvider'
+import { useTranslations } from 'next-intl'
 import Sessions from './Sessions'
 import AuthToken from './AuthToken'
 import { isValidUrl } from '@/lib/utils'
 import { toast } from 'sonner'
 import { useQueryState } from 'nuqs'
-import { truncateText } from '@/lib/utils'
+import { truncateText, cn } from '@/lib/utils'
 import { Skeleton } from '@/components/ui/skeleton'
 
-const ENDPOINT_PLACEHOLDER = 'NO ENDPOINT ADDED'
-const SidebarHeader = () => (
-  <div className="flex items-center gap-2">
-    <Icon type="agno" size="xs" />
-    <span className="text-xs font-medium uppercase text-white">Agent UI</span>
-  </div>
-)
+const SidebarHeader = () => {
+  const t = useTranslations('Sidebar')
+  return (
+    <div className="flex items-center gap-2">
+      <Icon type="agno" size="xs" />
+      <span className="text-primary text-xs font-medium uppercase">
+        {t('title')}
+      </span>
+    </div>
+  )
+}
 
 const NewChatButton = ({
   disabled,
@@ -30,20 +35,23 @@ const NewChatButton = ({
 }: {
   disabled: boolean
   onClick: () => void
-}) => (
-  <Button
-    onClick={onClick}
-    disabled={disabled}
-    size="lg"
-    className="h-9 w-full rounded-xl bg-primary text-xs font-medium text-background hover:bg-primary/80"
-  >
-    <Icon type="plus-icon" size="xs" className="text-background" />
-    <span className="uppercase">New Chat</span>
-  </Button>
-)
+}) => {
+  const t = useTranslations('Common')
+  return (
+    <Button
+      onClick={onClick}
+      disabled={disabled}
+      size="lg"
+      className="bg-primary text-background hover:bg-primary/80 h-9 w-full rounded-xl text-xs font-medium"
+    >
+      <Icon type="plus-icon" size="xs" className="text-background" />
+      <span className="uppercase">{t('newChat')}</span>
+    </Button>
+  )
+}
 
 const ModelDisplay = ({ model }: { model: string }) => (
-  <div className="flex h-9 w-full items-center gap-3 rounded-xl border border-primary/15 bg-accent p-3 text-xs font-medium uppercase text-muted">
+  <div className="border-primary/15 bg-background text-muted flex h-9 w-full items-center gap-3 rounded-xl border p-3 text-xs font-medium uppercase">
     {(() => {
       const icon = getProviderIcon(model)
       return icon ? <Icon type={icon} className="shrink-0" size="xs" /> : null
@@ -69,6 +77,7 @@ const Endpoint = () => {
   const [isRotating, setIsRotating] = useState(false)
   const [, setAgentId] = useQueryState('agent')
   const [, setSessionId] = useQueryState('session')
+  const t = useTranslations('Sidebar')
 
   useEffect(() => {
     setEndpointValue(selectedEndpoint)
@@ -80,7 +89,7 @@ const Endpoint = () => {
 
   const handleSave = async () => {
     if (!isValidUrl(endpointValue)) {
-      toast.error('Please enter a valid URL')
+      toast.error(t('enterValidUrl'))
       return
     }
     const cleanEndpoint = endpointValue.replace(/\/$/, '').trim()
@@ -116,7 +125,9 @@ const Endpoint = () => {
 
   return (
     <div className="flex flex-col items-start gap-2">
-      <div className="text-xs font-medium uppercase text-primary">AgentOS</div>
+      <div className="text-primary text-xs font-medium uppercase">
+        {t('agentOS')}
+      </div>
       {isEditing ? (
         <div className="flex w-full items-center gap-1">
           <input
@@ -124,7 +135,7 @@ const Endpoint = () => {
             value={endpointValue}
             onChange={(e) => setEndpointValue(e.target.value)}
             onKeyDown={handleKeyDown}
-            className="flex h-9 w-full items-center text-ellipsis rounded-xl border border-primary/15 bg-accent p-3 text-xs font-medium text-muted"
+            className="border-primary/15 bg-accent text-muted flex h-9 w-full items-center text-ellipsis rounded-xl border p-3 text-xs font-medium"
             autoFocus
           />
           <Button
@@ -139,7 +150,7 @@ const Endpoint = () => {
       ) : (
         <div className="flex w-full items-center gap-1">
           <motion.div
-            className="relative flex h-9 w-full cursor-pointer items-center justify-between rounded-xl border border-primary/15 bg-accent p-3 uppercase"
+            className="border-primary/15 bg-accent relative flex h-9 w-full cursor-pointer items-center justify-between rounded-xl border p-3 uppercase"
             onMouseEnter={() => setIsHovering(true)}
             onMouseLeave={() => setIsHovering(false)}
             onClick={() => setIsEditing(true)}
@@ -155,8 +166,8 @@ const Endpoint = () => {
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.2 }}
                 >
-                  <p className="flex items-center gap-2 whitespace-nowrap text-xs font-medium text-primary">
-                    <Icon type="edit" size="xxs" /> EDIT AGENTOS
+                  <p className="text-primary flex items-center gap-2 whitespace-nowrap text-xs font-medium">
+                    <Icon type="edit" size="xxs" /> {t('editAgentOS')}
                   </p>
                 </motion.div>
               ) : (
@@ -168,7 +179,7 @@ const Endpoint = () => {
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.2 }}
                 >
-                  <p className="text-xs font-medium text-muted">
+                  <p className="text-muted text-xs font-medium">
                     {isMounted
                       ? truncateText(selectedEndpoint, 21) ||
                         ENDPOINT_PLACEHOLDER
@@ -217,11 +228,22 @@ const Sidebar = ({
     selectedModel,
     hydrated,
     isEndpointLoading,
-    mode
+    mode,
+    isMobileSidebarOpen,
+    setIsMobileSidebarOpen
   } = useStore()
   const [isMounted, setIsMounted] = useState(false)
   const [agentId] = useQueryState('agent')
   const [teamId] = useQueryState('team')
+  const [isMobile, setIsMobile] = useState(false)
+  const t = useTranslations('Sidebar')
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768)
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
 
   useEffect(() => {
     setIsMounted(true)
@@ -232,83 +254,109 @@ const Sidebar = ({
   const handleNewChat = () => {
     clearChat()
     focusChatInput()
+    if (isMobile) setIsMobileSidebarOpen(false)
   }
 
   return (
-    <motion.aside
-      className="relative flex h-screen shrink-0 grow-0 flex-col overflow-hidden px-2 py-3 font-dmmono"
-      initial={{ width: '16rem' }}
-      animate={{ width: isCollapsed ? '2.5rem' : '16rem' }}
-      transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-    >
-      <motion.button
-        onClick={() => setIsCollapsed(!isCollapsed)}
-        className="absolute right-2 top-2 z-10 p-1"
-        aria-label={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
-        type="button"
-        whileTap={{ scale: 0.95 }}
-      >
-        <Icon
-          type="sheet"
-          size="xs"
-          className={`transform ${isCollapsed ? 'rotate-180' : 'rotate-0'}`}
-        />
-      </motion.button>
-      <motion.div
-        className="w-60 space-y-5"
-        initial={{ opacity: 0, x: -20 }}
-        animate={{ opacity: isCollapsed ? 0 : 1, x: isCollapsed ? -20 : 0 }}
-        transition={{ duration: 0.3, ease: 'easeInOut' }}
-        style={{
-          pointerEvents: isCollapsed ? 'none' : 'auto'
-        }}
-      >
-        <SidebarHeader />
-        <NewChatButton
-          disabled={messages.length === 0}
-          onClick={handleNewChat}
-        />
-        {isMounted && (
-          <>
-            <Endpoint />
-            <AuthToken hasEnvToken={hasEnvToken} envToken={envToken} />
-            {isEndpointActive && (
-              <>
-                <motion.div
-                  className="flex w-full flex-col items-start gap-2"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 0.5, ease: 'easeInOut' }}
-                >
-                  <div className="text-xs font-medium uppercase text-primary">
-                    Mode
-                  </div>
-                  {isEndpointLoading ? (
-                    <div className="flex w-full flex-col gap-2">
-                      {Array.from({ length: 3 }).map((_, index) => (
-                        <Skeleton
-                          key={index}
-                          className="h-9 w-full rounded-xl"
-                        />
-                      ))}
-                    </div>
-                  ) : (
-                    <>
-                      <ModeSelector />
-                      <EntitySelector />
-                      {selectedModel && (agentId || teamId) && (
-                        <ModelDisplay model={selectedModel} />
-                      )}
-                    </>
-                  )}
-                </motion.div>
-                <Sessions />
-              </>
-            )}
-          </>
+    <>
+      <AnimatePresence>
+        {isMobile && isMobileSidebarOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setIsMobileSidebarOpen(false)}
+            className="bg-background/80 fixed inset-0 z-40 backdrop-blur-sm md:hidden"
+          />
         )}
-      </motion.div>
-    </motion.aside>
+      </AnimatePresence>
+      <motion.aside
+        className={cn(
+          'bg-background-secondary font-dmmono fixed inset-y-0 left-0 z-50 flex h-full flex-col overflow-hidden border-r px-2 py-3 md:relative md:h-screen md:border-r-0',
+          isMobile && !isMobileSidebarOpen && 'hidden'
+        )}
+        initial={false}
+        animate={{
+          width: isMobile ? '16rem' : isCollapsed ? '2.5rem' : '16rem',
+          x: isMobile ? (isMobileSidebarOpen ? 0 : -300) : 0
+        }}
+        transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+      >
+        <motion.button
+          onClick={() => {
+            if (isMobile) {
+              setIsMobileSidebarOpen(false)
+            } else {
+              setIsCollapsed(!isCollapsed)
+            }
+          }}
+          className="absolute right-2 top-2 z-10 p-1"
+          aria-label={isCollapsed ? t('expand') : t('collapse')}
+          type="button"
+          whileTap={{ scale: 0.95 }}
+        >
+          <Icon
+            type="sheet"
+            size="xs"
+            className={`transform ${isCollapsed ? 'rotate-180' : 'rotate-0'}`}
+          />
+        </motion.button>
+        <motion.div
+          className="w-60 space-y-5"
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: isCollapsed ? 0 : 1, x: isCollapsed ? -20 : 0 }}
+          transition={{ duration: 0.3, ease: 'easeInOut' }}
+          style={{
+            pointerEvents: isCollapsed ? 'none' : 'auto'
+          }}
+        >
+          <SidebarHeader />
+          <NewChatButton
+            disabled={messages.length === 0}
+            onClick={handleNewChat}
+          />
+          {isMounted && (
+            <>
+              <Endpoint />
+              <AuthToken hasEnvToken={hasEnvToken} envToken={envToken} />
+              {isEndpointActive && (
+                <>
+                  <motion.div
+                    className="flex w-full flex-col items-start gap-2"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.5, ease: 'easeInOut' }}
+                  >
+                    <div className="text-primary text-xs font-medium uppercase">
+                      {t('mode')}
+                    </div>
+                    {isEndpointLoading ? (
+                      <div className="flex w-full flex-col gap-2">
+                        {Array.from({ length: 3 }).map((_, index) => (
+                          <Skeleton
+                            key={index}
+                            className="h-9 w-full rounded-xl"
+                          />
+                        ))}
+                      </div>
+                    ) : (
+                      <>
+                        <ModeSelector />
+                        <EntitySelector />
+                        {selectedModel && (agentId || teamId) && (
+                          <ModelDisplay model={selectedModel} />
+                        )}
+                      </>
+                    )}
+                  </motion.div>
+                  <Sessions />
+                </>
+              )}
+            </>
+          )}
+        </motion.div>
+      </motion.aside>
+    </>
   )
 }
 

@@ -1,6 +1,7 @@
 import React from 'react'
 import { useStore } from '@/store'
 import { useQueryState } from 'nuqs'
+import { useTranslations } from 'next-intl'
 
 const HistoryBlankStateIcon = () => (
   <svg
@@ -88,27 +89,30 @@ const HistoryBlankStateIcon = () => (
 const SessionBlankState = () => {
   const { selectedEndpoint, isEndpointActive } = useStore()
   const [agentId] = useQueryState('agent')
+  const t = useTranslations('Session')
 
   const errorMessage = (() => {
     switch (true) {
       case !isEndpointActive:
-        return 'Endpoint is not connected. Please connect the endpoint to see the history.'
+        return t('endpointNotConnected')
       case !selectedEndpoint:
-        return 'Select an endpoint to see the history.'
+        return t('selectEndpoint')
       case !agentId:
-        return 'Select an agent to see the history.'
+        return t('selectAgent')
       default:
-        return 'No session records yet. Start a conversation to create one.'
+        return t('noSessions')
     }
   })()
 
   return (
-    <div className="mt-1 flex items-center justify-center rounded-lg bg-background-secondary/50 pb-6 pt-4">
+    <div className="bg-background-secondary/50 mt-1 flex items-center justify-center rounded-lg pb-6 pt-4">
       <div className="flex flex-col items-center gap-1">
         <HistoryBlankStateIcon />
         <div className="flex flex-col items-center gap-2">
-          <h3 className="text-sm font-medium text-primary">No Session found</h3>
-          <p className="max-w-[210px] text-center text-sm text-muted">
+          <h3 className="text-primary text-sm font-medium">
+            {t('noSessionFound')}
+          </h3>
+          <p className="text-muted max-w-[210px] text-center text-sm">
             {errorMessage}
           </p>
         </div>

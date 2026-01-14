@@ -14,6 +14,7 @@ import React, { type FC } from 'react'
 
 import Icon from '@/components/ui/icon'
 import ChatBlankState from './ChatBlankState'
+import { useTranslations } from 'next-intl'
 
 interface MessageListProps {
   messages: ChatMessage[]
@@ -33,9 +34,9 @@ interface ReferenceItemProps {
 }
 
 const ReferenceItem: FC<ReferenceItemProps> = ({ reference }) => (
-  <div className="relative flex h-[63px] w-[190px] cursor-default flex-col justify-between overflow-hidden rounded-md bg-background-secondary p-3 transition-colors hover:bg-background-secondary/80">
-    <p className="text-sm font-medium text-primary">{reference.name}</p>
-    <p className="truncate text-xs text-primary/40">{reference.content}</p>
+  <div className="bg-background-secondary hover:bg-background-secondary/80 relative flex h-[63px] w-[190px] cursor-default flex-col justify-between overflow-hidden rounded-md p-3 transition-colors">
+    <p className="text-primary text-sm font-medium">{reference.name}</p>
+    <p className="text-primary/40 truncate text-xs">{reference.content}</p>
   </div>
 )
 
@@ -60,6 +61,7 @@ const References: FC<ReferenceProps> = ({ references }) => (
 )
 
 const AgentMessageWrapper = ({ message }: MessageWrapperProps) => {
+  const t = useTranslations('Chat')
   return (
     <div className="flex flex-col gap-y-9">
       {message.extra_data?.reasoning_steps &&
@@ -67,13 +69,13 @@ const AgentMessageWrapper = ({ message }: MessageWrapperProps) => {
           <div className="flex items-start gap-4">
             <Tooltip
               delayDuration={0}
-              content={<p className="text-accent">Reasoning</p>}
+              content={<p className="text-accent">{t('reasoning')}</p>}
               side="top"
             >
               <Icon type="reasoning" size="sm" />
             </Tooltip>
             <div className="flex flex-col gap-3">
-              <p className="text-xs uppercase">Reasoning</p>
+              <p className="text-xs uppercase">{t('reasoning')}</p>
               <Reasonings reasoning={message.extra_data.reasoning_steps} />
             </div>
           </div>
@@ -83,7 +85,7 @@ const AgentMessageWrapper = ({ message }: MessageWrapperProps) => {
           <div className="flex items-start gap-4">
             <Tooltip
               delayDuration={0}
-              content={<p className="text-accent">References</p>}
+              content={<p className="text-accent">{t('references')}</p>}
               side="top"
             >
               <Icon type="references" size="sm" />
@@ -97,12 +99,12 @@ const AgentMessageWrapper = ({ message }: MessageWrapperProps) => {
         <div className="flex items-start gap-3">
           <Tooltip
             delayDuration={0}
-            content={<p className="text-accent">Tool Calls</p>}
+            content={<p className="text-accent">{t('toolCalls')}</p>}
             side="top"
           >
             <Icon
               type="hammer"
-              className="rounded-lg bg-background-secondary p-1"
+              className="bg-background-secondary rounded-lg p-1"
               size="sm"
               color="secondary"
             />
@@ -126,8 +128,8 @@ const AgentMessageWrapper = ({ message }: MessageWrapperProps) => {
   )
 }
 const Reasoning: FC<ReasoningStepProps> = ({ index, stepTitle }) => (
-  <div className="flex items-center gap-2 text-secondary">
-    <div className="flex h-[20px] items-center rounded-md bg-background-secondary p-2">
+  <div className="text-secondary flex items-center gap-2">
+    <div className="bg-background-secondary flex h-[20px] items-center rounded-md p-2">
       <p className="text-xs">STEP {index + 1}</p>
     </div>
     <p className="text-xs">{stepTitle}</p>
@@ -146,8 +148,8 @@ const Reasonings: FC<ReasoningProps> = ({ reasoning }) => (
 )
 
 const ToolComponent = memo(({ tools }: ToolCallProps) => (
-  <div className="cursor-default rounded-full bg-accent px-2 py-1.5 text-xs">
-    <p className="font-dmmono uppercase text-primary/80">{tools.tool_name}</p>
+  <div className="bg-accent cursor-default rounded-full px-2 py-1.5 text-xs">
+    <p className="font-dmmono text-primary/80 uppercase">{tools.tool_name}</p>
   </div>
 ))
 ToolComponent.displayName = 'ToolComponent'

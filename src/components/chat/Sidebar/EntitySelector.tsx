@@ -13,11 +13,13 @@ import { useQueryState } from 'nuqs'
 import Icon from '@/components/ui/icon'
 import { useEffect } from 'react'
 import useChatActions from '@/hooks/useChatActions'
+import { useTranslations } from 'next-intl'
 
 export function EntitySelector() {
   const { mode, agents, teams, setMessages, setSelectedModel } = useStore()
 
   const { focusChatInput } = useChatActions()
+  const t = useTranslations('Common')
   const [agentId, setAgentId] = useQueryState('agent', {
     parse: (value) => value || undefined,
     history: 'push'
@@ -30,7 +32,7 @@ export function EntitySelector() {
 
   const currentEntities = mode === 'team' ? teams : agents
   const currentValue = mode === 'team' ? teamId : agentId
-  const placeholder = mode === 'team' ? 'Select Team' : 'Select Agent'
+  const placeholder = mode === 'team' ? t('selectTeam') : t('selectAgent')
 
   useEffect(() => {
     if (currentValue && currentEntities.length > 0) {
@@ -74,7 +76,11 @@ export function EntitySelector() {
     return (
       <Select disabled>
         <SelectTrigger className="h-9 w-full rounded-xl border border-primary/15 bg-primaryAccent text-xs font-medium uppercase opacity-50">
-          <SelectValue placeholder={`No ${mode}s Available`} />
+          <SelectValue
+            placeholder={
+              mode === 'team' ? t('noTeams') : t('noAgents')
+            }
+          />
         </SelectTrigger>
       </Select>
     )

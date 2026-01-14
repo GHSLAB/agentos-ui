@@ -1,6 +1,7 @@
 'use client'
 
 import { memo } from 'react'
+import { useTranslations } from 'next-intl'
 
 import { toast } from 'sonner'
 
@@ -9,10 +10,12 @@ import Icon from '@/components/ui/icon'
 
 const VideoItem = memo(({ video }: { video: VideoData }) => {
   const videoUrl = video.url
+  // 引入 useTranslations 以修复找不到名称的问题
+  const t = useTranslations('Multimedia')
 
   const handleDownload = async () => {
     try {
-      toast.loading('Downloading video...')
+      toast.loading(t('downloadingVideo'))
       const response = await fetch(videoUrl)
       if (!response.ok) throw new Error('Network response was not ok')
 
@@ -31,17 +34,17 @@ const VideoItem = memo(({ video }: { video: VideoData }) => {
       window.URL.revokeObjectURL(url)
       document.body.removeChild(a)
       toast.dismiss()
-      toast.success('Video downloaded successfully')
+      toast.success(t('videoDownloaded'))
     } catch {
       toast.dismiss()
-      toast.error('Failed to download video')
+      toast.error(t('videoDownloadFailed'))
     }
   }
 
   return (
     <div>
       <div className="group relative w-full max-w-xl">
-        {}
+        {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
         <video
           src={videoUrl}
           autoPlay
@@ -54,8 +57,8 @@ const VideoItem = memo(({ video }: { video: VideoData }) => {
         <button
           type="button"
           onClick={handleDownload}
-          className="absolute right-2 top-2 flex items-center justify-center rounded-sm bg-secondary/80 p-1.5 opacity-0 transition-opacity duration-200 hover:bg-secondary group-hover:opacity-100"
-          aria-label="Download GIF"
+          className="bg-secondary/80 hover:bg-secondary absolute right-2 top-2 flex items-center justify-center rounded-sm p-1.5 opacity-0 transition-opacity duration-200 group-hover:opacity-100"
+          aria-label={t('downloadVideo')}
         >
           <Icon type="download" size="xs" />
         </button>

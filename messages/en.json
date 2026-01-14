@@ -1,0 +1,74 @@
+{
+  "LanguageToggle": {
+    "switch": "Switch to Chinese"
+  },
+  "Common": {
+    "newChat": "New Chat",
+    "agent": "Agent",
+    "team": "Team",
+    "selectAgent": "Select Agent",
+    "selectTeam": "Select Team",
+    "noAgents": "No Agents Available",
+    "noTeams": "No Teams Available"
+  },
+  "ChatBlankState": {
+    "intro1": "This is an open-source",
+    "builtWith": "Agent UI, built with",
+    "fullExperience": "For the full experience, visit the AgentOS",
+    "viewDocs": "GO TO DOCS",
+    "visitAgentos": "VISIT AGENTOS"
+  },
+  "Sidebar": {
+    "title": "Agent UI",
+    "expand": "Expand sidebar",
+    "collapse": "Collapse sidebar",
+    "mode": "Mode",
+    "authToken": "Auth Token",
+    "noTokenSet": "NO TOKEN SET",
+    "enterToken": "Enter authentication token...",
+    "noAgents": "No Agents Available",
+    "noTeams": "No Teams Available",
+    "enterValidUrl": "Please enter a valid URL",
+    "agentOS": "AgentOS",
+    "editAgentOS": "EDIT AGENTOS",
+    "noEndpointAdded": "NO ENDPOINT ADDED",
+    "editToken": "EDIT TOKEN",
+    "clearToken": "Clear token",
+    "sessions": "Sessions"
+  },
+  "Session": {
+    "deleted": "Session deleted",
+    "deleteFailed": "Failed to delete session",
+    "confirmDelete": "Confirm deletion",
+    "deleteWarning": "This will permanently delete the session. This action cannot be undone.",
+    "cancel": "CANCEL",
+    "delete": "DELETE",
+    "endpointNotConnected": "Endpoint is not connected. Please connect the endpoint to see the history.",
+    "selectEndpoint": "Select an endpoint to see the history.",
+    "selectAgent": "Select an agent to see the history.",
+    "noSessions": "No sessions found",
+    "noSessionFound": "No Session found",
+    "unknownError": "Unknown error"
+  },
+  "ChatInput": {
+    "placeholder": "Ask anything",
+    "error": "Error in handleSubmit"
+  },
+  "Chat": {
+    "streamingError": "Oops! Something went wrong while streaming.",
+    "refreshPage": "Please try refreshing the page or try again later.",
+    "reasoning": "Reasoning",
+    "references": "References",
+    "toolCalls": "Tool Calls",
+    "step": "STEP",
+    "agentUI": "Agent UI"
+  },
+  "Multimedia": {
+    "imageUnavailable": "Image unavailable",
+    "aiGeneratedImage": "AI generated image",
+    "downloadingVideo": "Downloading video...",
+    "videoDownloaded": "Video downloaded successfully",
+    "videoDownloadFailed": "Failed to download video",
+    "downloadVideo": "Download Video"
+  }
+}

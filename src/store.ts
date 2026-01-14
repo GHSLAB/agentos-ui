@@ -54,6 +54,8 @@ interface Store {
   ) => void
   isSessionsLoading: boolean
   setIsSessionsLoading: (isSessionsLoading: boolean) => void
+  isMobileSidebarOpen: boolean
+  setIsMobileSidebarOpen: (isOpen: boolean) => void
 }
 
 export const useStore = create<Store>()(
@@ -104,10 +106,12 @@ export const useStore = create<Store>()(
         })),
       isSessionsLoading: false,
       setIsSessionsLoading: (isSessionsLoading) =>
-        set(() => ({ isSessionsLoading }))
+        set(() => ({ isSessionsLoading })),
+      isMobileSidebarOpen: false,
+      setIsMobileSidebarOpen: (isOpen) => set({ isMobileSidebarOpen: isOpen })
     }),
     {
-      name: 'endpoint-storage',
+      name: 'agent-storage',
       storage: createJSONStorage(() => localStorage),
       partialize: (state) => ({
         selectedEndpoint: state.selectedEndpoint

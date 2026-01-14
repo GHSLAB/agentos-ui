@@ -1,4 +1,5 @@
 import { type FC } from 'react'
+import { useTranslations } from 'next-intl'
 
 import { Button } from '@/components/ui/button'
 import {
@@ -22,36 +23,36 @@ const DeleteSessionModal: FC<DeleteSessionModalProps> = ({
   onClose,
   onDelete,
   isDeleting
-}) => (
-  <Dialog open={isOpen} onOpenChange={onClose}>
-    <DialogContent className="font-geist">
-      <DialogHeader>
-        <DialogTitle>Confirm deletion</DialogTitle>
-        <DialogDescription>
-          This will permanently delete the session. This action cannot be
-          undone.
-        </DialogDescription>
-      </DialogHeader>
-      <DialogFooter>
-        <Button
-          variant="outline"
-          className="rounded-xl border-border font-geist"
-          onClick={onClose}
-          disabled={isDeleting}
-        >
-          CANCEL
-        </Button>
-        <Button
-          variant="destructive"
-          onClick={onDelete}
-          disabled={isDeleting}
-          className="rounded-xl font-geist"
-        >
-          DELETE
-        </Button>
-      </DialogFooter>
-    </DialogContent>
-  </Dialog>
-)
+}) => {
+  const t = useTranslations('Session')
+  return (
+    <Dialog open={isOpen} onOpenChange={onClose}>
+      <DialogContent className="font-geist">
+        <DialogHeader>
+          <DialogTitle>{t('confirmDelete')}</DialogTitle>
+          <DialogDescription>{t('deleteWarning')}</DialogDescription>
+        </DialogHeader>
+        <DialogFooter>
+          <Button
+            variant="outline"
+            className="border-border font-geist rounded-xl"
+            onClick={onClose}
+            disabled={isDeleting}
+          >
+            {t('cancel')}
+          </Button>
+          <Button
+            variant="destructive"
+            onClick={onDelete}
+            disabled={isDeleting}
+            className="font-geist rounded-xl"
+          >
+            {t('delete')}
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  )
+}
 
 export default DeleteSessionModal
