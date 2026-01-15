@@ -47,7 +47,7 @@ const ChatBlankState = () => {
 
   return (
     <section
-      className="font-geist flex h-full w-full flex-col items-center justify-center text-center"
+      className="flex h-full w-full flex-col items-center justify-center text-center font-geist"
       aria-label="Welcome message"
     >
       <div className="flex w-full max-w-4xl flex-col gap-y-12 px-4">
@@ -70,10 +70,10 @@ const ChatBlankState = () => {
             <button
               key={option.key}
               onClick={() => handleAgentSelect(option.searchName)}
-              className="border-border bg-card/50 hover:bg-accent group flex flex-col items-center justify-center gap-2 rounded-xl border p-4 transition-all hover:scale-105 hover:shadow-lg md:gap-4 md:rounded-2xl md:p-8"
+              className="bg-card/50 group flex flex-col items-center justify-center gap-2 rounded-xl border border-border p-4 transition-all hover:scale-105 hover:bg-accent hover:shadow-lg md:gap-4 md:rounded-2xl md:p-8"
             >
-              <option.icon className="text-muted-foreground group-hover:text-primary h-8 w-8 md:h-12 md:w-12" />
-              <div className="text-foreground group-hover:text-primary text-sm font-semibold md:text-lg">
+              <option.icon className="text-muted-foreground h-8 w-8 group-hover:text-primary md:h-12 md:w-12" />
+              <div className="text-foreground text-sm font-semibold group-hover:text-primary md:text-lg">
                 {t(option.key)}
               </div>
             </button>
