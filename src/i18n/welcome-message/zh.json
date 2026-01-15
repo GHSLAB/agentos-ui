@@ -1,8 +1,8 @@
 {
   "title": "欢迎使用银行金融多智能体系统",
-  "customerService": "客户服务",
-  "accountManager": "理财经理",
-  "admin": "后台管理",
+  "customerService": "客户顾问",
+  "accountManager": "财富管理",
+  "admin": "投资管理",
   "agentNotFound": "未找到包含 '{name}' 的智能体",
   "intro1": "这是一个开源的",
   "builtWith": "Agent UI，构建于",

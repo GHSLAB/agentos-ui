@@ -21,12 +21,12 @@ const ChatBlankState = () => {
     },
     {
       key: 'accountManager',
-      searchName: '客户经理',
+      searchName: '财富管理',
       icon: Briefcase
     },
     {
       key: 'admin',
-      searchName: '后台管理',
+      searchName: '投资管理',
       icon: LayoutDashboard
     }
   ]
