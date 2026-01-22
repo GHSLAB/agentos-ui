@@ -7,7 +7,9 @@
     "agent": "智能体",
     "team": "团队",
     "selectAgent": "选择智能体",
-    "selectTeam": "选择团队"
+    "selectTeam": "选择团队",
+    "noAgents": "暂无智能体",
+    "noTeams": "暂无团队"
   },
   "Sidebar": {
     "title": "Bank Agent UI",
